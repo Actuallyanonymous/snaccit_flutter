@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "523142849231",
+    "project_id": "snaccit-7d853",
+    "storage_bucket": "snaccit-7d853.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523142849231:android:c4fd07ef6ff4fe2e10cdba",
+        "android_client_info": {
+          "package_name": "com.snaccit.partner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlp7qKN5-0-7d6ghue4omXtb7tRvBYTyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523142849231:android:6398b27e0f7b004110cdba",
+        "android_client_info": {
+          "package_name": "com.snaccit.snaccit_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlp7qKN5-0-7d6ghue4omXtb7tRvBYTyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
