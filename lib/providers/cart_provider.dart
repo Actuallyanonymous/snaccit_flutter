@@ -10,10 +10,11 @@ class CartProvider extends ChangeNotifier {
   List<CartItem> get items => List.unmodifiable(_items);
   String? get restaurantId => _restaurantId;
   String? get restaurantName => _restaurantName;
-  
+
   int get itemCount => _items.fold(0, (sum, item) => sum + item.quantity);
-  
+
   double get subtotal => _items.fold(0, (sum, item) => sum + item.subtotal);
+
 
   bool get isEmpty => _items.isEmpty;
 
@@ -25,13 +26,15 @@ class CartProvider extends ChangeNotifier {
   }) {
     // Auto-select first size if item has sizes but none selected
     String? finalSize = selectedSize;
-    if (finalSize == null && menuItem.sizes != null && menuItem.sizes!.isNotEmpty) {
+    if (finalSize == null &&
+        menuItem.sizes != null &&
+        menuItem.sizes!.isNotEmpty) {
       finalSize = menuItem.sizes!.first.name;
     }
-    
+
     // Calculate price based on selections
     double price = menuItem.price;
-    
+
     // Use size price if available
     if (finalSize != null && menuItem.sizes != null) {
       final size = menuItem.sizes!.firstWhere(
@@ -40,7 +43,7 @@ class CartProvider extends ChangeNotifier {
       );
       price = size.price > 0 ? size.price : menuItem.price;
     }
-    
+
     // Add addon prices
     for (final addon in selectedAddons) {
       price += addon.price;
@@ -82,7 +85,7 @@ class CartProvider extends ChangeNotifier {
     } else {
       _items[index] = _items[index].copyWith(quantity: newQuantity);
     }
-    
+
     notifyListeners();
   }
 

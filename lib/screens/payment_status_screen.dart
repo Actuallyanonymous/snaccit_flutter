@@ -8,10 +8,7 @@ import 'profile_screen.dart';
 class PaymentStatusScreen extends StatefulWidget {
   final String orderId;
 
-  const PaymentStatusScreen({
-    super.key,
-    required this.orderId,
-  });
+  const PaymentStatusScreen({super.key, required this.orderId});
 
   @override
   State<PaymentStatusScreen> createState() => _PaymentStatusScreenState();
@@ -47,32 +44,38 @@ class _PaymentStatusScreenState extends State<PaymentStatusScreen> {
         .doc(widget.orderId)
         .snapshots()
         .listen((snapshot) {
-      if (!snapshot.exists) {
-        setState(() => _orderStatus = 'not_found');
-        return;
-      }
+          if (!snapshot.exists) {
+            setState(() => _orderStatus = 'not_found');
+            return;
+          }
 
-      final data = snapshot.data()!;
-      setState(() {
-        _orderStatus = data['status'] ?? 'awaiting_payment';
-        _restaurantName = data['restaurantName'];
-        _total = (data['total'] as num?)?.toDouble();
-      });
+          final data = snapshot.data()!;
+          setState(() {
+            _orderStatus = data['status'] ?? 'awaiting_payment';
+            _restaurantName = data['restaurantName'];
+            _total = (data['total'] as num?)?.toDouble();
+          });
 
-      // On success statuses, auto-redirect to profile after delay
-      final successStatuses = ['pending', 'accepted', 'preparing', 'ready', 'completed'];
-      if (successStatuses.contains(_orderStatus) && !_redirectTriggered) {
-        _redirectTriggered = true;
-        Future.delayed(const Duration(seconds: 5), () {
-          if (mounted) {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => const ProfileScreen()),
-              (route) => route.isFirst,
-            );
+          // On success statuses, auto-redirect to profile after delay
+          final successStatuses = [
+            'pending',
+            'accepted',
+            'preparing',
+            'ready',
+            'completed',
+          ];
+          if (successStatuses.contains(_orderStatus) && !_redirectTriggered) {
+            _redirectTriggered = true;
+            Future.delayed(const Duration(seconds: 5), () {
+              if (mounted) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                  (route) => route.isFirst,
+                );
+              }
+            });
           }
         });
-      }
-    });
   }
 
   void _goToProfile() {
@@ -256,7 +259,11 @@ class _PaymentStatusScreenState extends State<PaymentStatusScreen> {
               alignment: Alignment.center,
               child: Text(
                 buttonText,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
             ),
           ).animate(delay: 400.ms).fadeIn(duration: 300.ms),

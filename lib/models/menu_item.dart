@@ -11,6 +11,7 @@ class MenuItem {
   final List<MenuItemSize>? sizes;
   final List<MenuItemAddon>? addons;
   final bool isVeg;
+  final bool isExpress;
 
   MenuItem({
     required this.id,
@@ -23,31 +24,36 @@ class MenuItem {
     this.sizes,
     this.addons,
     this.isVeg = false,
+    this.isExpress = false,
   });
 
   factory MenuItem.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    
+
     List<MenuItemSize>? parsedSizes;
     try {
       final rawSizes = data['sizes'];
       if (rawSizes is List) {
         parsedSizes = rawSizes
-            .where((s) => s is Map)
-            .map((s) => MenuItemSize.fromMap(Map<String, dynamic>.from(s as Map)))
+            .whereType<Map>()
+            .map(
+              (s) => MenuItemSize.fromMap(Map<String, dynamic>.from(s)),
+            )
             .toList();
       }
     } catch (_) {
       parsedSizes = null;
     }
-    
+
     List<MenuItemAddon>? parsedAddons;
     try {
       final rawAddons = data['addons'];
       if (rawAddons is List) {
         parsedAddons = rawAddons
-            .where((a) => a is Map)
-            .map((a) => MenuItemAddon.fromMap(Map<String, dynamic>.from(a as Map)))
+            .whereType<Map>()
+            .map(
+              (a) => MenuItemAddon.fromMap(Map<String, dynamic>.from(a)),
+            )
             .toList();
       }
     } catch (_) {
@@ -65,6 +71,7 @@ class MenuItem {
       sizes: parsedSizes,
       addons: parsedAddons,
       isVeg: data['isVeg'] ?? false,
+      isExpress: data['isExpress'] ?? false,
     );
   }
 }

@@ -1,33 +1,37 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   // ─── Brand Colors ──────────────────────────────────────
-  static const Color primaryGreen = Color(0xFF059669);      // emerald-600
-  static const Color primaryGreenDark = Color(0xFF047857);   // emerald-700
-  static const Color primaryGreenLight = Color(0xFFD1FAE5);  // emerald-100
+  static const Color primaryGreen = Color(0xFF059669); // emerald-600
+  static const Color primaryGreenDark = Color(0xFF047857); // emerald-700
+  static const Color primaryGreenLight = Color(0xFFD1FAE5); // emerald-100
   static const Color emerald50 = Color(0xFFECFDF5);
   static const Color emerald400 = Color(0xFF34D399);
-  
+
   static const Color accentOrange = Color(0xFFF97316);
   static const Color accentYellow = Color(0xFFFBBF24);
   static const Color amber500 = Color(0xFFF59E0B);
   static const Color amber600 = Color(0xFFD97706);
-  
-  static const Color backgroundLight = Color(0xFFFDFCF8);   // warm cream (matches website)
-  static const Color surfaceWhite = Color(0xFFFFFFFE);       // barely warm white
-  
-  static const Color textPrimary = Color(0xFF0F172A);        // slate-900
-  static const Color textSecondary = Color(0xFF475569);      // slate-600
-  static const Color textMuted = Color(0xFF94A3B8);          // slate-400
-  static const Color textHint = Color(0xFFCBD5E1);           // slate-300
-  
+
+  static const Color backgroundLight = Color(0xFFF8FAF9); // cool minty cream
+  static const Color surfaceWhite = Color(0xFFFFFFFE); // barely warm white
+  static const Color surfaceGlass = Color(
+    0xF2FFFFFF,
+  ); // translucent glass white
+
+  static const Color textPrimary = Color(0xFF0F172A); // slate-900
+  static const Color textSecondary = Color(0xFF475569); // slate-600
+  static const Color textMuted = Color(0xFF94A3B8); // slate-400
+  static const Color textHint = Color(0xFFCBD5E1); // slate-300
+
   static const Color errorRed = Color(0xFFEF4444);
   static const Color successGreen = Color(0xFF22C55E);
   static const Color warningYellow = Color(0xFFF59E0B);
-  
-  static const Color divider = Color(0xFFF3F1ED);           // warm cream divider
-  static const Color border = Color(0xFFE8E5DF);            // warm cream border
+
+  static const Color divider = Color(0xFFF1F5F4); // cool divider
+  static const Color border = Color(0xFFE2E8F0); // slate-200 border
 
   // ─── Gradients ─────────────────────────────────────────
   static const LinearGradient primaryGradient = LinearGradient(
@@ -35,15 +39,21 @@ class AppTheme {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-  
+
   static const LinearGradient heroGradient = LinearGradient(
-    colors: [emerald50, Color(0xFFFEF3C7)],
+    colors: [Color(0xFFECFDF5), Color(0xFFF0FDF4), Color(0xFFFEFCE8)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-  
+
+  static const LinearGradient splashGradient = LinearGradient(
+    colors: [Color(0xFF059669), Color(0xFF10B981), Color(0xFF34D399)],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
   static const LinearGradient cardShimmer = LinearGradient(
-    colors: [Color(0xFFFDFCF8), Color(0xFFE8E5DF), Color(0xFFFDFCF8)],
+    colors: [Color(0xFFF1F5F9), Color(0xFFE2E8F0), Color(0xFFF1F5F9)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -60,53 +70,49 @@ class AppTheme {
     end: Alignment.centerRight,
   );
 
+  static const LinearGradient cartDockGradient = LinearGradient(
+    colors: [Color(0xFF059669), Color(0xFF047857)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
   // ─── Shadows ───────────────────────────────────────────
   static List<BoxShadow> get shadowSm => [
     BoxShadow(
-      color: Colors.black.withValues(alpha: 0.04),
-      blurRadius: 6,
+      color: Colors.black.withValues(alpha: 0.03),
+      blurRadius: 8,
       offset: const Offset(0, 2),
     ),
   ];
-  
+
   static List<BoxShadow> get shadowMd => [
     BoxShadow(
-      color: Colors.black.withValues(alpha: 0.06),
-      blurRadius: 12,
-      offset: const Offset(0, 4),
-    ),
-    BoxShadow(
-      color: Colors.black.withValues(alpha: 0.03),
-      blurRadius: 4,
-      offset: const Offset(0, 2),
-    ),
-  ];
-  
-  static List<BoxShadow> get shadowLg => [
-    BoxShadow(
-      color: Colors.black.withValues(alpha: 0.08),
-      blurRadius: 24,
-      offset: const Offset(0, 8),
-    ),
-    BoxShadow(
-      color: Colors.black.withValues(alpha: 0.04),
-      blurRadius: 8,
-      offset: const Offset(0, 4),
-    ),
-  ];
-  
-  static List<BoxShadow> get shadowGreen => [
-    BoxShadow(
-      color: primaryGreen.withValues(alpha: 0.25),
+      color: Colors.black.withValues(alpha: 0.05),
       blurRadius: 16,
       offset: const Offset(0, 4),
     ),
   ];
 
+  static List<BoxShadow> get shadowLg => [
+    BoxShadow(
+      color: Colors.black.withValues(alpha: 0.08),
+      blurRadius: 32,
+      offset: const Offset(0, 8),
+    ),
+  ];
+
+  static List<BoxShadow> get shadowGreen => [
+    BoxShadow(
+      color: primaryGreen.withValues(alpha: 0.25),
+      blurRadius: 24,
+      offset: const Offset(0, 6),
+    ),
+  ];
+
   static List<BoxShadow> get shadowSoft => [
     BoxShadow(
-      color: const Color(0xFF8B7E6A).withValues(alpha: 0.08),
-      blurRadius: 20,
+      color: const Color(0xFF64748B).withValues(alpha: 0.05),
+      blurRadius: 24,
       spreadRadius: -2,
       offset: const Offset(0, 4),
     ),
@@ -114,12 +120,59 @@ class AppTheme {
 
   static List<BoxShadow> get shadowCard => [
     BoxShadow(
-      color: const Color(0xFF8B7E6A).withValues(alpha: 0.06),
-      blurRadius: 16,
+      color: const Color(0xFF64748B).withValues(alpha: 0.04),
+      blurRadius: 24,
       spreadRadius: 0,
-      offset: const Offset(0, 2),
+      offset: const Offset(0, 4),
     ),
   ];
+
+  static List<BoxShadow> get shadowGlass => [
+    BoxShadow(
+      color: Colors.black.withValues(alpha: 0.08),
+      blurRadius: 30,
+      spreadRadius: -4,
+      offset: const Offset(0, -8),
+    ),
+    BoxShadow(
+      color: primaryGreen.withValues(alpha: 0.05),
+      blurRadius: 20,
+      offset: const Offset(0, -4),
+    ),
+  ];
+
+  // ─── Glassmorphism Helpers ─────────────────────────────
+  static Widget glassContainer({
+    required Widget child,
+    double blurAmount = 24,
+    Color? backgroundColor,
+    BorderRadius? borderRadius,
+    Border? border,
+    EdgeInsets? padding,
+    List<BoxShadow>? boxShadow,
+  }) {
+    return ClipRRect(
+      borderRadius: borderRadius ?? BorderRadius.circular(radius2XL),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: blurAmount, sigmaY: blurAmount),
+        child: Container(
+          padding: padding,
+          decoration: BoxDecoration(
+            color: backgroundColor ?? surfaceGlass,
+            borderRadius: borderRadius ?? BorderRadius.circular(radius2XL),
+            border:
+                border ??
+                Border.all(
+                  color: Colors.white.withValues(alpha: 0.3),
+                  width: 0.5,
+                ),
+            boxShadow: boxShadow,
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
 
   // ─── Border Radius ─────────────────────────────────────
   static const double radiusSmall = 8.0;
@@ -144,42 +197,87 @@ class AppTheme {
         surface: surfaceWhite,
         error: errorRed,
       ),
+      // Smooth Cupertino-style page transitions
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      ),
       textTheme: GoogleFonts.interTextTheme().copyWith(
         displayLarge: GoogleFonts.inter(
-          fontSize: 32, fontWeight: FontWeight.w800, color: textPrimary, height: 1.2,
+          fontSize: 32,
+          fontWeight: FontWeight.w800,
+          color: textPrimary,
+          height: 1.2,
+          letterSpacing: -1.0,
         ),
         displayMedium: GoogleFonts.inter(
-          fontSize: 28, fontWeight: FontWeight.w700, color: textPrimary, height: 1.2,
+          fontSize: 28,
+          fontWeight: FontWeight.w700,
+          color: textPrimary,
+          height: 1.2,
+          letterSpacing: -0.8,
         ),
         headlineLarge: GoogleFonts.inter(
-          fontSize: 24, fontWeight: FontWeight.w700, color: textPrimary, height: 1.3,
+          fontSize: 24,
+          fontWeight: FontWeight.w800,
+          color: textPrimary,
+          height: 1.3,
+          letterSpacing: -0.6,
         ),
         headlineMedium: GoogleFonts.inter(
-          fontSize: 20, fontWeight: FontWeight.w600, color: textPrimary, height: 1.3,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+          color: textPrimary,
+          height: 1.3,
+          letterSpacing: -0.4,
         ),
         titleLarge: GoogleFonts.inter(
-          fontSize: 18, fontWeight: FontWeight.w600, color: textPrimary,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          color: textPrimary,
+          letterSpacing: -0.3,
         ),
         titleMedium: GoogleFonts.inter(
-          fontSize: 16, fontWeight: FontWeight.w600, color: textPrimary,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: textPrimary,
+          letterSpacing: -0.2,
         ),
         titleSmall: GoogleFonts.inter(
-          fontSize: 14, fontWeight: FontWeight.w600, color: textSecondary,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: textSecondary,
+          letterSpacing: -0.1,
         ),
         bodyLarge: GoogleFonts.inter(
-          fontSize: 16, fontWeight: FontWeight.normal, color: textPrimary,
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+          color: textPrimary,
+          letterSpacing: -0.1,
         ),
         bodyMedium: GoogleFonts.inter(
-          fontSize: 14, fontWeight: FontWeight.normal, color: textSecondary,
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+          color: textSecondary,
         ),
         bodySmall: GoogleFonts.inter(
-          fontSize: 12, fontWeight: FontWeight.normal, color: textMuted,
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+          color: textMuted,
         ),
         labelLarge: GoogleFonts.inter(
-          fontSize: 14, fontWeight: FontWeight.w700, color: textPrimary, letterSpacing: 0.5,
+          fontSize: 14,
+          fontWeight: FontWeight.w800,
+          color: textPrimary,
+          letterSpacing: 0.3,
         ),
         labelSmall: GoogleFonts.inter(
-          fontSize: 10, fontWeight: FontWeight.w700, color: textMuted, letterSpacing: 1.2,
+          fontSize: 10,
+          fontWeight: FontWeight.w800,
+          color: textMuted,
+          letterSpacing: 0.8,
         ),
       ),
       appBarTheme: AppBarTheme(
@@ -189,7 +287,9 @@ class AppTheme {
         scrolledUnderElevation: 0,
         centerTitle: true,
         titleTextStyle: GoogleFonts.inter(
-          fontSize: 18, fontWeight: FontWeight.w700, color: textPrimary,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          color: textPrimary,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -200,7 +300,8 @@ class AppTheme {
           shape: const StadiumBorder(),
           elevation: 0,
           textStyle: GoogleFonts.inter(
-            fontSize: 16, fontWeight: FontWeight.w700,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -211,14 +312,18 @@ class AppTheme {
           shape: const StadiumBorder(),
           side: const BorderSide(color: primaryGreen, width: 1.5),
           textStyle: GoogleFonts.inter(
-            fontSize: 16, fontWeight: FontWeight.w600,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: surfaceWhite,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radiusXL),
           borderSide: BorderSide(color: border),
@@ -267,7 +372,10 @@ class AppTheme {
           borderRadius: BorderRadius.circular(radiusLarge),
         ),
         side: BorderSide(color: border),
-        labelStyle: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500),
+        labelStyle: GoogleFonts.inter(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

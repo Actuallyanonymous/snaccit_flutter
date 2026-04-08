@@ -17,24 +17,18 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for macos.',
         );
       case TargetPlatform.windows:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for windows.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          'DefaultFirebaseOptions have not been configured for linux.',
         );
       default:
         throw UnsupportedError(
@@ -49,5 +43,14 @@ class DefaultFirebaseOptions {
     messagingSenderId: '523142849231',
     projectId: 'snaccit-7d853',
     storageBucket: 'snaccit-7d853.firebasestorage.app',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDHdJJhLnPrnj8CpFrYbEoxGLlEA-khRbM',
+    appId: '1:523142849231:ios:896b2d138eb4d70d10cdba',
+    messagingSenderId: '523142849231',
+    projectId: 'snaccit-7d853',
+    storageBucket: 'snaccit-7d853.firebasestorage.app',
+    iosBundleId: 'com.snaccit.app',
   );
 }

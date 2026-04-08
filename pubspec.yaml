@@ -1,8 +1,8 @@
-name: snaccit_flutter
+name: snaccit
 description: "Snaccit - Skip the queue, order ahead!"
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 2.0.7+13
 
 environment:
   sdk: ^3.9.2

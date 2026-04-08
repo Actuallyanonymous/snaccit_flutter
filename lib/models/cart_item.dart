@@ -6,6 +6,7 @@ class CartItem {
   final String? selectedSize;
   final List<String> selectedAddons;
   final double totalPrice;
+  final bool isExpress;
   int quantity;
 
   CartItem({
@@ -16,6 +17,7 @@ class CartItem {
     this.selectedSize,
     this.selectedAddons = const [],
     required this.totalPrice,
+    this.isExpress = false,
     this.quantity = 1,
   });
 
@@ -29,6 +31,7 @@ class CartItem {
     String? selectedSize,
     List<String>? selectedAddons,
     double? totalPrice,
+    bool? isExpress,
     int? quantity,
   }) {
     return CartItem(
@@ -39,6 +42,7 @@ class CartItem {
       selectedSize: selectedSize ?? this.selectedSize,
       selectedAddons: selectedAddons ?? this.selectedAddons,
       totalPrice: totalPrice ?? this.totalPrice,
+      isExpress: isExpress ?? this.isExpress,
       quantity: quantity ?? this.quantity,
     );
   }
@@ -48,10 +52,11 @@ class CartItem {
   /// It recalculates prices server-side for security
   Map<String, dynamic> toOrderItem() {
     return {
-      'id': menuItemId,  // Menu item document ID for server-side lookup
-      'size': selectedSize ?? '',  // Size name (required by server)
-      'addons': selectedAddons,  // List of addon names
+      'id': menuItemId, // Menu item document ID for server-side lookup
+      'size': selectedSize ?? '', // Size name (required by server)
+      'addons': selectedAddons, // List of addon names
       'quantity': quantity,
+      'isExpress': isExpress,
     };
   }
 }

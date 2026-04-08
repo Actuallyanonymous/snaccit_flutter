@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:523142849231:android:c901ccee76c64f0010cdba",
+        "android_client_info": {
+          "package_name": "com.snaccit.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlp7qKN5-0-7d6ghue4omXtb7tRvBYTyM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:523142849231:android:c4fd07ef6ff4fe2e10cdba",
         "android_client_info": {
           "package_name": "com.snaccit.partner"

@@ -62,10 +62,20 @@ class Restaurant {
       final now = DateTime.now();
       final openParts = openingTime!.split(':');
       final closeParts = closingTime!.split(':');
-      final open = DateTime(now.year, now.month, now.day,
-          int.parse(openParts[0]), int.parse(openParts[1]));
-      final close = DateTime(now.year, now.month, now.day,
-          int.parse(closeParts[0]), int.parse(closeParts[1]));
+      final open = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        int.parse(openParts[0]),
+        int.parse(openParts[1]),
+      );
+      final close = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        int.parse(closeParts[0]),
+        int.parse(closeParts[1]),
+      );
       return now.isAfter(open) && now.isBefore(close);
     } catch (_) {
       return true; // If parsing fails, assume open

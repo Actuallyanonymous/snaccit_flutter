@@ -6,8 +6,7 @@ import '../models/order.dart';
 
 class OrderProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseFunctions _functions = FirebaseFunctions.instanceFor(region: 'asia-south2');
-  
+
   List<Order> _orders = [];
   Order? _currentOrder;
   bool _isLoading = false;
@@ -29,7 +28,7 @@ class OrderProvider extends ChangeNotifier {
   // Listen to user's orders
   void listenToOrders(String userId) {
     _ordersSubscription?.cancel();
-    
+
     _ordersSubscription = _firestore
         .collection('orders')
         .where('userId', isEqualTo: userId)
@@ -37,37 +36,39 @@ class OrderProvider extends ChangeNotifier {
         .limit(50)
         .snapshots()
         .listen(
-      (snapshot) {
-        _orders = snapshot.docs.map((doc) => Order.fromFirestore(doc)).toList();
-        notifyListeners();
-      },
-      onError: (e) {
-        _error = e.toString();
-        notifyListeners();
-      },
-    );
+          (snapshot) {
+            _orders = snapshot.docs
+                .map((doc) => Order.fromFirestore(doc))
+                .toList();
+            notifyListeners();
+          },
+          onError: (e) {
+            _error = e.toString();
+            notifyListeners();
+          },
+        );
   }
 
   // Listen to a specific order (for payment status tracking)
   void listenToOrder(String orderId) {
     _orderSubscription?.cancel();
-    
+
     _orderSubscription = _firestore
         .collection('orders')
         .doc(orderId)
         .snapshots()
         .listen(
-      (doc) {
-        if (doc.exists) {
-          _currentOrder = Order.fromFirestore(doc);
-          notifyListeners();
-        }
-      },
-      onError: (e) {
-        _error = e.toString();
-        notifyListeners();
-      },
-    );
+          (doc) {
+            if (doc.exists) {
+              _currentOrder = Order.fromFirestore(doc);
+              notifyListeners();
+            }
+          },
+          onError: (e) {
+            _error = e.toString();
+            notifyListeners();
+          },
+        );
   }
 
   // Stop listening to specific order
@@ -96,8 +97,9 @@ class OrderProvider extends ChangeNotifier {
 
     try {
       // Call Cloud Function to create order and initiate payment
-      final callable = FirebaseFunctions.instanceFor(region: 'asia-south2')
-          .httpsCallable('createOrderAndPay');
+      final callable = FirebaseFunctions.instanceFor(
+        region: 'asia-south2',
+      ).httpsCallable('createOrderAndPay');
 
       final result = await callable.call({
         'restaurantId': restaurantId,
@@ -141,11 +143,11 @@ class OrderProvider extends ChangeNotifier {
           .doc(restaurantId)
           .collection('reviews')
           .add({
-        'orderId': orderId,
-        'rating': rating,
-        'comment': comment,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+            'orderId': orderId,
+            'rating': rating,
+            'comment': comment,
+            'createdAt': FieldValue.serverTimestamp(),
+          });
 
       // Mark order as reviewed
       await _firestore.collection('orders').doc(orderId).update({

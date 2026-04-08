@@ -7,8 +7,8 @@ void main() async {
   await Firebase.initializeApp();
   try {
     final snap = await FirebaseFirestore.instance.collection('users').limit(1).get();
-    print('SUCCESS: ${snap.docs.length}');
+    debugPrint('SUCCESS: ${snap.docs.length}');
   } catch (e) {
-    print('ERROR: $e');
+    debugPrint('ERROR: $e');
   }
 }

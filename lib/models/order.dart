@@ -28,6 +28,7 @@ class Order {
   final String? couponCode;
   final int pointsRedeemed;
   final double pointsValue;
+  final double expressFee;
   final String? paymentMethod;
   final DateTime? createdAt;
   final bool hasReview;
@@ -47,6 +48,7 @@ class Order {
     this.couponCode,
     this.pointsRedeemed = 0,
     this.pointsValue = 0,
+    this.expressFee = 0,
     this.paymentMethod,
     this.createdAt,
     this.hasReview = false,
@@ -59,7 +61,8 @@ class Order {
       userId: data['userId'] ?? '',
       restaurantId: data['restaurantId'] ?? '',
       restaurantName: data['restaurantName'] ?? '',
-      items: (data['items'] as List<dynamic>?)
+      items:
+          (data['items'] as List<dynamic>?)
               ?.map((i) => OrderItem.fromMap(i as Map<String, dynamic>))
               .toList() ??
           [],
@@ -72,6 +75,7 @@ class Order {
       couponCode: data['couponCode'],
       pointsRedeemed: data['pointsRedeemed'] ?? 0,
       pointsValue: (data['pointsValue'] as num?)?.toDouble() ?? 0.0,
+      expressFee: (data['expressFee'] as num?)?.toDouble() ?? 0.0,
       paymentMethod: data['paymentMethod'],
       createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
       hasReview: data['hasReview'] ?? false,
@@ -110,7 +114,8 @@ class Order {
       case OrderStatus.awaitingPayment:
         return 'Awaiting Payment';
       case OrderStatus.pending:
-        return 'Pending';
+        // COD orders go straight to pending — show a clearer label
+        return isCod ? 'To be accepted' : 'Pending';
       case OrderStatus.accepted:
         return 'Accepted';
       case OrderStatus.preparing:
@@ -130,6 +135,19 @@ class Order {
     }
   }
 
+  bool get isCod =>
+      paymentMethod?.toLowerCase() == 'cod' ||
+      paymentMethod?.toLowerCase() == 'cash';
+
+  String get paymentDisplay {
+    if (isCod) return 'COD';
+    if (paymentMethod?.toLowerCase() == 'phonepe') return 'PhonePe';
+    if (paymentMethod != null && paymentMethod!.isNotEmpty) {
+      return paymentMethod![0].toUpperCase() + paymentMethod!.substring(1);
+    }
+    return 'Prepaid';
+  }
+
   bool get isActive =>
       status == OrderStatus.awaitingPayment ||
       status == OrderStatus.pending ||
@@ -144,6 +162,7 @@ class OrderItem {
   final int quantity;
   final String? size;
   final List<String>? addons;
+  final bool isExpress;
 
   OrderItem({
     required this.name,
@@ -151,6 +170,7 @@ class OrderItem {
     required this.quantity,
     this.size,
     this.addons,
+    this.isExpress = false,
   });
 
   factory OrderItem.fromMap(Map<String, dynamic> map) {
@@ -160,6 +180,7 @@ class OrderItem {
       quantity: map['quantity'] ?? 1,
       size: map['size'],
       addons: (map['addons'] as List<dynamic>?)?.cast<String>(),
+      isExpress: map['isExpress'] ?? false,
     );
   }
 }

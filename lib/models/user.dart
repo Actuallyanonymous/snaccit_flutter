@@ -27,7 +27,7 @@ class UserModel {
       uid: doc.id,
       email: data['email'],
       phone: data['phone'] ?? data['phoneNumber'] ?? data['mobile'],
-      name: data['name'] ?? data['username'] ?? 'Customer',
+      name: data['username'] ?? data['name'] ?? 'Customer',
       referralCode: data['referralCode'] ?? data['myReferralCode'],
       points: data['points'] ?? 0,
       fcmToken: data['fcmToken'],

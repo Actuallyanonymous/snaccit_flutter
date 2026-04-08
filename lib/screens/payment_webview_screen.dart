@@ -42,10 +42,12 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
         NavigationDelegate(
           onPageStarted: (url) {
             debugPrint('🌐 WebView page started: $url');
-            if (mounted) setState(() {
-              _isLoading = true;
-              _hasError = false;
-            });
+            if (mounted) {
+              setState(() {
+                _isLoading = true;
+                _hasError = false;
+              });
+            }
           },
           onPageFinished: (url) {
             debugPrint('🌐 WebView page finished: $url');
@@ -96,7 +98,9 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
 
             // Intercept snaccit.com redirect (payment completed/cancelled)
             if (url.contains('snaccit.com/payment-status')) {
-              debugPrint('✅ Intercepted snaccit redirect — going to status screen');
+              debugPrint(
+                '✅ Intercepted snaccit redirect — going to status screen',
+              );
               _navigateToStatusScreen();
               return NavigationDecision.prevent;
             }
@@ -116,13 +120,17 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
             return NavigationDecision.navigate;
           },
           onWebResourceError: (error) {
-            debugPrint('🌐 WebView error: ${error.errorCode} - ${error.description}');
+            debugPrint(
+              '🌐 WebView error: ${error.errorCode} - ${error.description}',
+            );
             // Don't show error for sub-resource failures (images, etc.)
             if (error.isForMainFrame ?? false) {
-              if (mounted) setState(() {
-                _isLoading = false;
-                _hasError = true;
-              });
+              if (mounted) {
+                setState(() {
+                  _isLoading = false;
+                  _hasError = true;
+                });
+              }
             }
           },
         ),
@@ -137,10 +145,13 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       String launchable = url;
       if (url.startsWith('intent://')) {
         // Try to extract a fallback URL from the intent
-        final packageMatch = RegExp(r'package=([^;]+)').firstMatch(url);
+        RegExp(r'package=([^;]+)').firstMatch(url);
         final schemeMatch = RegExp(r'scheme=([^;]+)').firstMatch(url);
         if (schemeMatch != null) {
-          launchable = url.replaceFirst('intent://', '${schemeMatch.group(1)}://');
+          launchable = url.replaceFirst(
+            'intent://',
+            '${schemeMatch.group(1)}://',
+          );
           // Remove everything after the first #
           final hashIndex = launchable.indexOf('#');
           if (hashIndex > -1) launchable = launchable.substring(0, hashIndex);
@@ -149,13 +160,18 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       }
 
       final uri = Uri.parse(launchable);
-      final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      final launched = await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
       debugPrint('📱 UPI app launched: $launched');
 
       if (!launched && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('No UPI app found. Please install PhonePe, Google Pay, or another UPI app.'),
+            content: const Text(
+              'No UPI app found. Please install PhonePe, Google Pay, or another UPI app.',
+            ),
             backgroundColor: Colors.orange.shade700,
           ),
         );
@@ -165,7 +181,9 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not open UPI app. Please try another payment method.'),
+            content: const Text(
+              'Could not open UPI app. Please try another payment method.',
+            ),
             backgroundColor: Colors.orange.shade700,
           ),
         );
@@ -199,14 +217,20 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(
               'Continue Payment',
-              style: TextStyle(color: AppTheme.primaryGreen, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                color: AppTheme.primaryGreen,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text(
               'Leave',
-              style: TextStyle(color: AppTheme.errorRed, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                color: AppTheme.errorRed,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
@@ -273,11 +297,18 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.error_outline, size: 56, color: AppTheme.errorRed),
+                      Icon(
+                        Icons.error_outline,
+                        size: 56,
+                        color: AppTheme.errorRed,
+                      ),
                       const SizedBox(height: 16),
                       const Text(
                         'Failed to load payment page',
-                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -297,7 +328,9 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
                           backgroundColor: AppTheme.primaryGreen,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusMedium,
+                            ),
                           ),
                         ),
                         child: const Text('Retry'),
