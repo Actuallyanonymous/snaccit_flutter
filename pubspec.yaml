@@ -2,7 +2,7 @@ name: snaccit
 description: "Snaccit - Skip the queue, order ahead!"
 publish_to: 'none'
 
-version: 2.0.7+13
+version: 2.0.10+16
 
 environment:
   sdk: ^3.9.2
