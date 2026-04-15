@@ -15,11 +15,16 @@ class CartProvider extends ChangeNotifier {
 
   double get subtotal => _items.fold(0, (sum, item) => sum + item.subtotal);
 
-
   bool get isEmpty => _items.isEmpty;
 
-  // Add item to cart
-  void addItem({
+  /// Returns true if the cart is empty OR already belongs to [restaurantId].
+  bool canAddFrom(String restaurantId) {
+    return _items.isEmpty || _restaurantId == restaurantId;
+  }
+
+  /// Add item to cart. Always adds unconditionally — callers must first check
+  /// [canAddFrom] and prompt the user to clear the cart if needed.
+  bool addItem({
     required MenuItem menuItem,
     String? selectedSize,
     List<MenuItemAddon> selectedAddons = const [],
@@ -62,6 +67,7 @@ class CartProvider extends ChangeNotifier {
 
     _items.add(cartItem);
     notifyListeners();
+    return true;
   }
 
   // Set restaurant context
@@ -95,11 +101,11 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Clear cart
-  void clear() {
+  // Clear cart and optionally set a new restaurant immediately
+  void clear({String? newRestaurantId, String? newRestaurantName}) {
     _items.clear();
-    _restaurantId = null;
-    _restaurantName = null;
+    _restaurantId = newRestaurantId;
+    _restaurantName = newRestaurantName;
     notifyListeners();
   }
 

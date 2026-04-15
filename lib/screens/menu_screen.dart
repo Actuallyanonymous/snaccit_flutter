@@ -40,14 +40,196 @@ class _MenuScreenState extends State<MenuScreen> {
 
   void _addToCart(MenuItem item) {
     HapticFeedback.lightImpact();
+    final cart = context.read<CartProvider>();
+
+    // ── Cross-restaurant conflict guard ──
+    if (!cart.canAddFrom(widget.restaurant.id)) {
+      _showReplaceCartDialog(
+        existingRestaurantName: cart.restaurantName ?? 'another restaurant',
+        onConfirm: () {
+          cart.clear(
+            newRestaurantId: widget.restaurant.id,
+            newRestaurantName: widget.restaurant.name,
+          );
+          // Now add the item
+          if ((item.sizes != null && item.sizes!.isNotEmpty) ||
+              (item.addons != null && item.addons!.isNotEmpty)) {
+            _showCustomizationModal(item);
+          } else {
+            cart.addItem(menuItem: item);
+          }
+        },
+      );
+      return;
+    }
+
     if ((item.sizes != null && item.sizes!.isNotEmpty) ||
         (item.addons != null && item.addons!.isNotEmpty)) {
       _showCustomizationModal(item);
     } else {
-      context.read<CartProvider>().addItem(
-        menuItem: item,
-      );
+      cart.addItem(menuItem: item);
     }
+  }
+
+  void _showReplaceCartDialog({
+    required String existingRestaurantName,
+    required VoidCallback onConfirm,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (ctx) => Container(
+        margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        decoration: BoxDecoration(
+          color: AppTheme.surfaceWhite,
+          borderRadius: BorderRadius.circular(28),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.12),
+              blurRadius: 32,
+              offset: const Offset(0, -8),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            24,
+            20,
+            24,
+            MediaQuery.of(ctx).padding.bottom + 24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag handle
+              Container(
+                width: 36,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 24),
+                decoration: BoxDecoration(
+                  color: AppTheme.border,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+
+              // Icon
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEF3C7),
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 28,
+                    color: Color(0xFFD97706),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+
+              // Title
+              const Text(
+                'Start a new cart?',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: AppTheme.textPrimary,
+                  letterSpacing: -0.3,
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              Text(
+                'Your cart has items from $existingRestaurantName. Adding this item will clear your current cart.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppTheme.textSecondary,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 28),
+
+              // Confirm button
+              SizedBox(
+                width: double.infinity,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.errorRed,
+                    borderRadius: BorderRadius.circular(100),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.errorRed.withValues(alpha: 0.30),
+                        blurRadius: 16,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(100),
+                      onTap: () {
+                        Navigator.pop(ctx);
+                        onConfirm();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Text(
+                          'Clear cart & add item',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              // Cancel button
+              SizedBox(
+                width: double.infinity,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () => Navigator.pop(ctx),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        color: AppTheme.backgroundLight,
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(
+                          color: AppTheme.border.withValues(alpha: 0.5),
+                        ),
+                      ),
+                      child: const Text(
+                        'Keep current cart',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppTheme.textPrimary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _showCustomizationModal(MenuItem item) {
